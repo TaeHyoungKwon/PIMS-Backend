@@ -1,15 +1,19 @@
-const express = require('express');
-const app = express();
+const Sequelize = require('sequelize');
+const env = process.env.NODE_ENV | 'development';
+const sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+);
 
-app.get('/', (req, res) => {
-    res.send("Hello, PIMS!");
+Object.keys(db).forEach(modelName => {
+    if (db[modelName].assoicate) {
+        db[modelName].associate(db);
+    }
 });
 
-app.get('/about', (req, res) => {
-    res.send("Hello, About!");
-});
+db.sequelize = sequelize;
+db.sequelize = sequelize;
 
-app.listen(8080, () =>{
-    console.log(`server is running on localhost:8080`);
-});
-
+module.exports = db;
