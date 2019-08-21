@@ -12,6 +12,9 @@ db.sequelize.sync().then(() => {
     process.exit();
 });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
+
 app.use('/api/user',userAPIRouter);
 
 app.listen(8080, ()=> {
