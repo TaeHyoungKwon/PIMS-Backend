@@ -1,19 +1,22 @@
-const Sequelize = require('sequelize');
-const env = process.env.NODE_ENV | 'development';
-const sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-);
+const db = require('./models');
 
-Object.keys(db).forEach(modelName => {
-    if (db[modelName].assoicate) {
-        db[modelName].associate(db);
-    }
+const express = require('express');
+
+const app = express();
+
+db.sequelize.sync().then(() => {
+    console.log('DB connection success.');
+    console.log('Press CTRL-C to stop\n')
+}).catch(err => {
+    console.error(err);
+    console.log('DB connection Error');
+    process.exit();
+    });
+
+app.get('/', (req, res)=> {
+    res.send("Hello, Server");
+})
+
+app.listen(8080, ()=> {
+   console.log('server is running on localhost:8080')
 });
-
-db.sequelize = sequelize;
-db.sequelize = sequelize;
-
-module.exports = db;
