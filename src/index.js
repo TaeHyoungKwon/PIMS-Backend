@@ -1,7 +1,6 @@
-const db = require('./models');
-
 const express = require('express');
-
+const db = require('./models');
+const userAPIRouter = require('./routes/user');
 const app = express();
 
 db.sequelize.sync().then(() => {
@@ -11,11 +10,9 @@ db.sequelize.sync().then(() => {
     console.error(err);
     console.log('DB connection Error');
     process.exit();
-    });
+});
 
-app.get('/', (req, res)=> {
-    res.send("Hello, Server");
-})
+app.use('/api/user',userAPIRouter);
 
 app.listen(8080, ()=> {
    console.log('server is running on localhost:8080')
